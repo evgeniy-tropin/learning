@@ -1,6 +1,6 @@
 let stringArr = ["Lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing", "elit"];
 
-const utils = (function () {
+const filter = (function () {
   function filterNegative (arr, strLength) {
     return arr.filter(function (item) {
       return item.length >= strLength
@@ -11,4 +11,4 @@ const utils = (function () {
   }
 })();
 
-console.log(utils.filterNegative(stringArr, 5));
+console.log(filter.filterNegative(stringArr, 5));
