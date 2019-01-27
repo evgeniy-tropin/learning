@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <title>Homework #9</title>
+        <style>
+            .wrapper {
+                max-width: 960px;
+                margin: 0 auto;
+            }
+            .row {
+                margin: 0 0 15px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrapper">
+            <form action="#">
+                <div class="block">
+                    <h2>Create new cocktail</h2>
+                    <div class="row">
+                        <input type="text" value="" placeholder="Type cocktail name" id="name">
+                    </div>
+                    <div class="row">
+                        <input type="number" value="" placeholder="Type cocktail price" id="price">
+                    </div>
+                    <div class="row">
+                        <input type="radio" name="alcohol" value="false" id="without" checked="checked">
+                        <label for="without">Without alcohor</label>
+                        <input type="radio" name="alcohol" value="true" id="with">
+                        <label for="with">With alcohor</label>
+                    </div>
+                    <div class="row">
+                        <input type="text" value="" placeholder="Type cocktail type" id="type">
+                    </div>
+                    <div class="row">
+                        <a href="javascript:void(0)" id="creator">Add new cocktail</a>
+                        <h3 id="indicator"></h3>
+                    </div>
+                    <h2>Check existing cocktails</h2>
+                    <div class="row">
+                        <a href="javascript:void(0)" id="checkExisting">Check existing</a>
+                        <ul id="list"></ul>
+                    </div>
+                    <h2>Remove cocktail by name</h2>
+                    <div class="row">
+                        <input type="text" value="" placeholder="Type cocktail name" id="name">
+                    </div>
+                    <div class="row">
+                        <a href="javascript:void(0)" id="remove">Remove cocktail</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <script src="js/main.js"></script>
+    </body>
+</html>
