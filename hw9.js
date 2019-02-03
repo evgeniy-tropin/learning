@@ -1,79 +1,51 @@
-const cocktailProto = {
-    getPrice: function () {
-        return this.ingredients.reduce(function (sum, ingredient) {
-            return sum+ingredient.price
-        }, 0);
-    }
-}
-
-function createCocktail(name, ingredients, isAlcohol, type) {
-    let obj = Object.create(cocktailProto);
-    obj.name = name;
-    obj.ingredients = ingredients;
-    obj.isAlcohol = isAlcohol;
-    obj.type = type;
-    return obj;
-}
-
-let margarita = createCocktail('margarita', [{name: 'tequila', price: 5},{name: 'lime', price: 3} ], true, 'long');
-let oldFashioned = createCocktail('old fashioned', [{name: 'wiskey', price: 6},{name: 'bitter', price: 3} ], true, 'long');
-
-const cocktailsListProto = {
-    add: function (cocktail) {
-        this.list.push(cocktail);
-    },
-    getAll: function () {
-        return this.list
-    }
-}
-
-function createCocktailsList() {
-    return Object.create(cocktailsListProto, {
-        list: {
-            value: [],
-            enumerable: true,
-            writable: true,
-            configurable: true
-        }
-    })
-}
-
-const mycocktailList = createCocktailsList();
-mycocktailList.add(margarita);
-
-class Cocktail {
+class CocktailManager {
     constructor (name, ingredients, isAlcohol, type) {
-        this.name = name; // instance property
+        this.name = name;
         this.ingredients = ingredients;
         this.isAlcohol = isAlcohol;
         this.type = type;
     }
-    getPrice() { // methods of prototype
-        return this.ingredients.reduce(function (sum, ingredient) {
-            return sum+ingredient.price
+    getPrice(){
+        return this.ingredients.reduce(function (counter, ingredient) {
+            return counter + ingredient.price
         }, 0)
     }
 }
 
-class CocktailsList {
-    constructor () {
-        this.list = []
-    }
+let margarita = new CocktailManager("margarita",[{name: 'tequila', price: 5},{name: 'lime', price: 3} ], true, 'long');
+console.log(margarita.getPrice());
 
-    add (cocktail) {
-        this.list.push(cocktail)
+class Cocktails {
+    constructor (){
+        this.list = [];
     }
-
-    getAll () {
+    add (name, ingredients, isAlcohol, type){
+        let cocktail = {
+            name: name,
+            ingredients: ingredients,
+            isAlcohol: isAlcohol,
+            type: type
+        };
+        this.list.push(cocktail);
+    }
+    remove (name){
+        this.list = this.list.filter(function (item) {
+            return item.name !== name
+        })
+    }
+    showAll (){
         return this.list;
     }
-    render() {
-        return this.list.map(function (item) {
-            return `<div>${item.name}</div>`;
-        }).join('')
+    showAlcohol (isAlcohol){
+        return this.list.filter(function (item) {
+            return item.isAlcohol === isAlcohol
+        })
     }
 }
 
-let list = new CocktailsList();
-list.add(new Cocktail('margarita', [{name: 'tequila', price: 5},{name: 'lime', price: 3} ], true, 'long'))
-list.add(new Cocktail('old fashioned', [{name: 'wiskey', price: 6},{name: 'bitter', price: 3} ], true, 'long'))
+let cocktails = new Cocktails();
+cocktails.add('margarita',[{name: 'tequila', price: 5},{name: 'lime', price: 3} ], true, 'long');
+cocktails.add('old fashioned', [{name: 'wiskey', price: 6},{name: 'bitter', price: 3} ], true, 'long');
+cocktails.remove("margarita");
+console.log(cocktails.showAll());
+console.log(cocktails.showAlcohol(false));  // if this parameter is true you will get alcohol cocktails
