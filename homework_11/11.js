@@ -1,10 +1,10 @@
 const showButton = document.getElementById('show-button');
 const filterInput = document.getElementById('filter-coctails');
 const listElement = document.getElementById('cocktail-list');
-const chooseTypeShot = document.getElementById('shot');
-const chooseTypeLong = document.getElementById('long');
-const chooseAlcoholFalse = document.getElementById('alcohol-false');
-const chooseAlcoholTrue = document.getElementById('alcohol-true');
+const typesWrap = document.getElementById('types-wrap');
+const checkboxType = document.getElementsByClassName('checkbox-type');
+const isAlcoholWrap = document.getElementById('isAlcohol-wrap');
+const checkboxIsAlcohol = document.getElementsByClassName('checkbox-alcohol');
 
 class Cocktail {
     constructor (name, ingredients, isAlcohol, type) {
@@ -41,7 +41,6 @@ class CocktailsList {
     }
 
     renderFilteredType (type) {
-        listElement.innerHTML = '';
         let list = this.list.filter(function (item) {
             return item.type === type;
         });
@@ -49,7 +48,11 @@ class CocktailsList {
     }
 
     renderFilteredOnAlcohol (isAlcohol) {
-        listElement.innerHTML = '';
+        if (isAlcohol === 'true') {
+            isAlcohol = true;
+        } else {
+            isAlcohol = false;
+        }
         let list = this.list.filter(function (item) {
             return item.isAlcohol === isAlcohol;
         });
@@ -86,32 +89,28 @@ filterInput.addEventListener('input', function (event) {
     listElement.appendChild(list.renderFiltered(this.value))
 });
 
-chooseTypeShot.addEventListener('change', function (event) {
+typesWrap.addEventListener('change', function(){
     listElement.innerHTML = '';
-    if (event.target.checked){
-        listElement.appendChild(list.renderFilteredType(this.value))
+    let types = [];
+    for (let i = 0; i < checkboxType.length; i++){
+        types.push(checkboxType[i]);
     }
+    types.forEach(function(element) {
+        if (element.checked){
+            listElement.appendChild(list.renderFilteredType(element.value))
+        }
+    });
 });
 
-chooseTypeLong.addEventListener('change', function (event) {
+isAlcoholWrap.addEventListener('change', function(){
     listElement.innerHTML = '';
-    if (event.target.checked){
-        listElement.appendChild(list.renderFilteredType(this.value))
+    let isAlcohol = [];
+    for (let i = 0; i < checkboxIsAlcohol.length; i++){
+        isAlcohol.push(checkboxIsAlcohol[i]);
     }
-});
-
-chooseAlcoholFalse.addEventListener('change', function (event) {
-    console.log(77);
-    listElement.innerHTML = '';
-    if (event.target.checked){
-        listElement.appendChild(list.renderFilteredType(this.value))
-    }
-});
-
-chooseAlcoholTrue.addEventListener('change', function (event) {
-    console.log(77);
-    listElement.innerHTML = '';
-    if (event.target.checked){
-        listElement.appendChild(list.renderFilteredOnAlcohol(this.value))
-    }
+    isAlcohol.forEach(function(element) {
+        if (element.checked){
+            listElement.appendChild(list.renderFilteredOnAlcohol(element.value))
+        }
+    });
 });
