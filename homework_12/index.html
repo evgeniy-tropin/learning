@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .content{
+      overflow: hidden;
+    }
+    .column{
+      float: left;
+      width: 50%;
+    }
+    .setting{
+      margin: 0 0 15px;
+    }
+    .cocktail-list{
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      text-transform: capitalize;
+    }
+    .cocktail-list li{
+      position: relative;
+      padding-right: 105px;
+      margin-bottom: 15px;
+    }
+    .buy-button{
+      border: none;
+      padding: 0;
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100px;
+      text-align: center;
+      font: 14px/20px Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+      background: aqua;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+<div id="content" class="content">
+    <div class="column">
+      <ul id="cocktail-list" class="cocktail-list"></ul>
+    </div>
+  <div class="column">
+    <ul id="order-list"></ul>
+  </div>
+</div>
+
+<script src="12.js"></script>
+</body>
+</html>
