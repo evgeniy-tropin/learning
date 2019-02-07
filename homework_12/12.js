@@ -1,9 +1,7 @@
-// const showButton = document.getElementById('show-button');
-// const filterInput = document.getElementById('filter-coctails');
-// const isAlcoholFilter = document.querySelector('#is-alcohol');
-// const isLongFilter = document.querySelector('#is-long');
 const menuElement = document.getElementById('cocktail-list');
 const orderElement = document.getElementById('order-list');
+const totalPrice = document.getElementById('total-price');
+let fragment = document.createDocumentFragment();
 
 class Cocktail {
     constructor (name, ingredients, isAlcohol, type) {
@@ -12,16 +10,13 @@ class Cocktail {
         this.isAlcohol = isAlcohol;
         this.type = type;
     }
-    getPrice() { // methods of prototype
-        return this.ingredients.reduce(function (sum, ingredient) {
-            return sum+ingredient.price
-        }, 0)
-    }
 }
 
 class CocktailsList {
     constructor () {
-        this.list = []; // model
+        this.list = [];
+        this.orderList = [];
+        this.orderRenderedList = [];
     }
 
     add (cocktail) {
@@ -30,15 +25,70 @@ class CocktailsList {
 
     renderMenu() {
         let fragment = document.createDocumentFragment();
-        this.list.forEach(function (item) {
+        this.list.forEach(function (item, index) {
             let cocktailItem = document.createElement('li');
             let buyButton = document.createElement('button');
             cocktailItem.innerText = item.name;
             buyButton.innerText = "Buy now!";
             cocktailItem.className = 'cocktail';
+            cocktailItem.setAttribute("data-index", index);
             buyButton.className = 'buy-button';
             cocktailItem.appendChild(buyButton);
             fragment.appendChild(cocktailItem);
+        })
+        return fragment;
+    }
+
+    renderOrder(index) {
+        let k = 1;
+        console.log(this.orderRenderedList);
+
+        if (!this.orderRenderedList.length || this.orderRenderedList.indexOf(this.list[index].name) === -1){
+            this.orderRenderedList.push({name : this.list[index].name, amount : 1, price : this.list[index].ingredients.reduce(function (sum, ingredients) {return sum+ingredients.price}, 0)});
+            console.log(this.orderRenderedList);
+        } else {
+            for (let i = 0; i < this.orderRenderedList.length; i++){
+                k += 1;
+                this.orderRenderedList[i].amount = k;
+            }
+        }
+
+
+
+        console.log(this.orderList.length)
+
+        let cocktailRow = document.createElement('tr');
+        let cocktailName = document.createElement('td');
+        cocktailName.innerText = "Name";
+        let cocktailAmount = document.createElement('td');
+        cocktailAmount.innerText = "Amount";
+        let cocktailPrice = document.createElement('td');
+        cocktailPrice.innerText = "Price";
+        let cocktailTotalPrice = document.createElement('td');
+        cocktailTotalPrice.innerText = "Total price";
+        cocktailRow.appendChild(cocktailName);
+        cocktailRow.appendChild(cocktailAmount);
+        cocktailRow.appendChild(cocktailPrice);
+        cocktailRow.appendChild(cocktailTotalPrice);
+
+        fragment.appendChild(cocktailRow);
+
+        this.orderRenderedList.forEach(function (item) {
+            cocktailRow = document.createElement('tr');
+            cocktailName = document.createElement('td');
+            cocktailName.innerText = item.name;
+            cocktailAmount = document.createElement('td');
+            cocktailAmount.innerText = item.amount;
+            cocktailPrice = document.createElement('td');
+            cocktailPrice.innerText = item.price;
+            cocktailTotalPrice = document.createElement('td');
+            cocktailTotalPrice.innerText = item.amount * item.price;
+            cocktailRow.appendChild(cocktailName);
+            cocktailRow.appendChild(cocktailAmount);
+            cocktailRow.appendChild(cocktailPrice);
+            cocktailRow.appendChild(cocktailTotalPrice);
+
+            fragment.appendChild(cocktailRow);
         })
         return fragment;
     }
@@ -53,51 +103,12 @@ list.add(new Cocktail('mojito', [{name: 'wiskey', price: 6},{name: 'bitter', pri
 
 menuElement.appendChild(list.renderMenu());
 
-class OrderList {
-    constructor(){
-        this.orderList = [];
-    }
-
-    addToOrder(){}
-
-    getPrice(index) {
-        //return this;
-        console.log(this);
-        console.log(list);
-        this.ingredients.reduce(function (sum, ingredient) {
-            return sum+ingredient.price
-        }, 0)
-    }
-
-    renderOrder() {
-        // this.applyFilters(); // change this.list
-        let fragment = document.createDocumentFragment();
-
-        this.orderList.forEach(function (item) {
-            let cocktailItem = document.createElement('li');
-            let buyButton = document.createElement('button');
-            cocktailItem.innerText = item.name;
-            buyButton.innerText = "Buy now!";
-            cocktailItem.className = 'cocktail';
-            buyButton.className = 'buy-button';
-            fragment.appendChild(buyButton);
-            fragment.appendChild(cocktailItem);
-        })
-        return fragment;
-    }
-}
-
-let orderList = new OrderList();
 
 function filterHandler (e) {
-    console.log(e.target)
     if (e.target.classList.contains("buy-button")){
-        let parentEl = e.target.closest(".cocktail-list");
-        //console.log(parentEl.indexOf());
-        orderList.getPrice(1);
+        orderElement.innerHTML = '';
+        orderElement.appendChild(list.renderOrder(parseInt(e.target.closest(".cocktail").dataset.index)));
     }
-    orderElement.innerHTML = '';
-    orderElement.appendChild(orderList.renderOrder())
 }
 
 menuElement.addEventListener('click', filterHandler);
