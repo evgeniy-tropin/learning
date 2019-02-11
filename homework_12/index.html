@@ -6,12 +6,15 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
   <style>
-    .content{
+    .content,
+    .total-row{
       overflow: hidden;
     }
     .column{
       float: left;
       width: 50%;
+      box-sizing: border-box;
+      padding: 10px;
     }
     .order-list{
       width: 100%;
@@ -40,6 +43,18 @@
       background: aqua;
       color: black;
     }
+    .text-center{
+      text-align: center;
+    }
+    .value{
+      width: 20%;
+    }
+    .total-price{
+      float: right;
+      width: 20%;
+      text-align: center;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -48,15 +63,10 @@
       <ul id="cocktail-list" class="cocktail-list"></ul>
     </div>
   <div class="column">
-    <table id="order-list" class="order-list">
-      <!--<tr>-->
-        <!--<td>Name</td>-->
-        <!--<td>Amount</td>-->
-        <!--<td>Price</td>-->
-        <!--<td>Total price</td>-->
-      <!--</tr>-->
-    </table>
-    <div id="total-price" class="total-price"></div>
+    <table id="order-list" class="order-list"></table>
+    <div class="total-row">
+      <strong id="total-price" class="total-price"></strong>
+    </div>
   </div>
 </div>
 
